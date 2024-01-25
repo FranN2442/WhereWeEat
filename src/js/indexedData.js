@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function (){
 })
 
 let dataArray = [{ id: 1, name: 'Restaurant1' },{ id: 2, name: 'Restaurant2' },{ id: 3, name: 'Restaurant3' }]
-
+   
 let db;
 function initializeIndexedDB() {
 

@@ -1,11 +1,4 @@
 
-document.addEventListener('DOMContentLoaded', function (){
-
-    console.log('DOM is fully loaded');
-    initializeIndexedDB();
-
-})
-
 let dataArray = [{ id: 1, name: 'Restaurant1' },{ id: 2, name: 'Restaurant2' },{ id: 3, name: 'Restaurant3' }]
    
 let db;
@@ -48,3 +41,5 @@ function addDataToDB(data) {
         console.error('Error adding data:', event.target.error);
     };
 }
+
+initializeIndexedDB();

@@ -1,5 +1,4 @@
 import '../scss/styles.scss'
-import '../js/indexedData.js'
 import * as bootstrap from 'bootstrap'
 let map;
 let service;
@@ -11,6 +10,7 @@ let bcnButton = document.querySelector('.barcelona-btn');
 let grxButton = document.querySelector('.granada-btn');
 let mdrButton = document.querySelector('.madrid-btn');
 let mlgButton = document.querySelector('.malaga-btn');
+let logOutButton = document.getElementById('logOutBtn');
 
 function handleButtonClick(coords, cityName) {
     if (document.getElementById('map')) {
@@ -29,7 +29,7 @@ function handleButtonClick(coords, cityName) {
     console.log(cityName + ' button');
 }
 
-bcnButton.addEventListener('click',  function () {
+bcnButton.addEventListener('click', function () {
     handleButtonClick({ lng: 2.1589900, lat: 41.3887900 }, 'Barcelona');
 });
 
@@ -44,106 +44,9 @@ mdrButton.addEventListener('click', function () {
 mlgButton.addEventListener('click', function () {
     handleButtonClick({ lng: -4.4203400, lat: 36.7201600 }, 'Malaga');
 });
-
-// bcnButton.addEventListener('click', async function () {
-
-//     let bcnCoords = { lng: 2.1589900, lat: 41.3887900 }
-
-    
-//     if(document.getElementById('map')){
-
-//         setCenter(bcnCoords);
-        
-
-//     } else {
-
-//         let divCharged = setDivMap()
-//         setTimeout(() => {
-
-//             setCenter(bcnCoords);
-//             let posDiv = divCharged.getBoundingClientRect().top + window.scrollY;
-//             window.scrollTo({
-//                 top: posDiv,
-//                 behavior: 'smooth' // Para un desplazamiento suave
-//             });
-//         },1000)
-//     }
-
-//     console.log('bcn button');
-
-// });
-
-// grxButton.addEventListener('click', function () {
-//     let grxCoords = { lng: -3.6066700, lat: 37.1881700 }
-
-//     if(document.getElementById('map')){
-
-//         setCenter(grxCoords);
-        
-
-//     } else {
-
-//         let divCharged = setDivMap()
-//         setTimeout(() => {
-
-//             setCenter(grxCoords);
-//             let posDiv = divCharged.getBoundingClientRect().top + window.scrollY;
-//             window.scrollTo({
-//                 top: posDiv,
-//                 behavior: 'smooth' // Para un desplazamiento suave
-//             });
-//         },1000)
-//     }
-//     console.log('grx button')
-
-// });
-// mdrButton.addEventListener('click', function () {
-//     let mdrCoords = { lng:  -3.7025600, lat: 40.4165000}
-
-//     if(document.getElementById('map')){
-
-//         setCenter(mdrCoords);
-        
-
-//     } else {
-
-//         let divCharged = setDivMap()
-//         setTimeout(() => {
-
-//             setCenter(mdrCoords);
-//             let posDiv = divCharged.getBoundingClientRect().top + window.scrollY;
-//             window.scrollTo({
-//                 top: posDiv,
-//                 behavior: 'smooth' // Para un desplazamiento suave
-//             });
-//         },1000)
-//     }
-//     console.log('mdr button')
-
-// });
-// mlgButton.addEventListener('click', function () {
-//     let mlgCoords = { lng: -4.4203400, lat: 36.7201600 }
-
-//     if(document.getElementById('map')){
-
-//         setCenter(mlgCoords);
-        
-//     } else {
-
-//         let divCharged = setDivMap()
-//         setTimeout(() => {
-
-//             setCenter(mlgCoords);
-//             let posDiv = divCharged.getBoundingClientRect().top + window.scrollY;
-//             window.scrollTo({
-//                 top: posDiv,
-//                 behavior: 'smooth' // Para un desplazamiento suave
-//             });
-//         },1000)
-//     }
-//     console.log('mlg button')
-
-// });
+logOutButton.addEventListener('click', function () {
+    logOut();
+});
 
 function setDivMap() {
 
@@ -151,7 +54,7 @@ function setDivMap() {
     div.id = 'map';
 
     body.append(div);
-    
+
     initMap();
     return div
 
@@ -176,6 +79,52 @@ function setCenter(pos) {
     map.setCenter(ciudadCoords);
 
 }
+function logOut() {
 
+    sessionStorage.removeItem("usuario");
+    window.location.href = "login.html"
+
+}
+
+function updateUser() {
+    const mailElement = document.getElementById("email").value;
+    const unameElement = document.getElementById("name").value;
+    const passElement = document.getElementById("password").value;
+  
+    const transaccion = db.result.transaction(["users"], "readwrite");
+    transaccion.objectStore("users").put({
+      email: mailElement,
+      name: unameElement,
+      password: passElement,
+    });
+}
+
+let usuario = JSON.parse(sessionStorage.getItem('usuario'));
+let form = document.getElementById('form-perfil');
+
+for (var atributos in usuario) {
+    if (usuario.hasOwnProperty(atributos)) {
+        var input = document.createElement('input');
+        input.type = 'text';
+        input.name = atributos;
+        input.value = usuario[atributos];
+        input.id = atributos;
+        input.className = 'form-control mb-2';
+
+        var label = document.createElement('label');
+        label.innerHTML = atributos.toUpperCase();
+
+        form.appendChild(label);
+        form.appendChild(input);
+    }
+}
+
+let editButton = document.createElement('button');
+editButton.id='editarPerfil'
+editButton.className = 'btn btn-primary my-3 col-6 offset-3';
+editButton.innerHTML = 'Editar Perfil';
+form.appendChild(editButton);
+
+editButton.addEventListener('click', updateUser() );
 
 

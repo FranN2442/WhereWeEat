@@ -6,9 +6,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'development',
-  entry: './src/js/main.js',
+  entry: {main : './src/js/main.js',
+          login : './src/js/login.js'},
   output: {
-    filename: 'main.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
   plugins: [

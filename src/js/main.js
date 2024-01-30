@@ -1,9 +1,9 @@
 import '../scss/styles.scss'
 import * as bootstrap from 'bootstrap'
+const db = indexedDB.open("users", 1);
 let map;
 let service;
 let infowindow;
-
 let body = document.querySelector('body');
 
 let bcnButton = document.querySelector('.barcelona-btn');
@@ -11,23 +11,7 @@ let grxButton = document.querySelector('.granada-btn');
 let mdrButton = document.querySelector('.madrid-btn');
 let mlgButton = document.querySelector('.malaga-btn');
 let logOutButton = document.getElementById('logOutBtn');
-
-function handleButtonClick(coords, cityName) {
-    if (document.getElementById('map')) {
-        setCenter(coords);
-    } else {
-        let divCharged = setDivMap();
-        setTimeout(() => {
-            setCenter(coords);
-            let posDiv = divCharged.getBoundingClientRect().top + window.scrollY;
-            window.scrollTo({
-                top: posDiv,
-                behavior: 'smooth'
-            });
-        }, 1000);
-    }
-    console.log(cityName + ' button');
-}
+let profileButton = document.getElementById('profile-button');
 
 bcnButton.addEventListener('click', function () {
     handleButtonClick({ lng: 2.1589900, lat: 41.3887900 }, 'Barcelona');
@@ -48,6 +32,82 @@ logOutButton.addEventListener('click', function () {
     logOut();
 });
 
+profileButton.addEventListener('click', function () {
+    setProfile();
+});
+
+
+
+function setProfile() {
+
+    
+
+    let usuario = JSON.parse(sessionStorage.getItem('usuario'));
+    let form = document.getElementById('form-perfil');
+
+    form.innerHTML="";
+
+    for (var atributos in usuario) {
+        if (usuario.hasOwnProperty(atributos)) {
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.name = atributos;
+            input.value = usuario[atributos];
+            input.id = atributos;
+            input.className = 'form-control mb-2';
+
+            var label = document.createElement('label');
+            label.innerHTML = atributos.toUpperCase();
+
+            form.appendChild(label);
+            form.appendChild(input);
+        }
+    }
+    let editButton = document.createElement('button');
+    editButton.type='button'
+    editButton.innerHTML = "Editar"
+    editButton.id = "edit";
+    form.appendChild(editButton);
+
+    let but = document.getElementById('edit');
+    but.addEventListener('click', () => {
+
+        updateUser();
+    })
+
+}
+
+function updateSessionStorage(name,email,password){
+
+    let usuario = JSON.parse(sessionStorage.getItem('usuario'));
+    usuario.name = name;
+    usuario.email = email;
+    usuario.password = password;
+    sessionStorage.setItem('usuario',JSON.stringify(usuario))
+    window.location.reload();
+
+
+
+}
+
+function handleButtonClick(coords, cityName) {
+    if (document.getElementById('map')) {
+        setCenter(coords);
+    } else {
+        let divCharged = setDivMap();
+        setTimeout(() => {
+            setCenter(coords);
+            let posDiv = divCharged.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({
+                top: posDiv,
+                behavior: 'smooth'
+            });
+        }, 1000);
+    }
+    console.log(cityName + ' button');
+}
+
+
 function setDivMap() {
 
     let div = document.createElement('div');
@@ -61,10 +121,11 @@ function setDivMap() {
 
 }
 
-function initMap() {
+async function initMap() {
 
-    infowindow = new google.maps.InfoWindow();
-    map = new google.maps.Map(document.getElementById("map"), {
+    const { Map } = await google.maps.importLibrary("maps");
+
+    map = new Map(document.getElementById("map"), {
         zoom: 18,
     });
 
@@ -87,44 +148,22 @@ function logOut() {
 }
 
 function updateUser() {
-    const mailElement = document.getElementById("email").value;
-    const unameElement = document.getElementById("name").value;
-    const passElement = document.getElementById("password").value;
-  
+    console.log('hola');
+    const email = document.getElementById("email").value;
+    const name = document.getElementById("name").value;
+    const password = document.getElementById("password").value;
+
     const transaccion = db.result.transaction(["users"], "readwrite");
     transaccion.objectStore("users").put({
-      email: mailElement,
-      name: unameElement,
-      password: passElement,
+        email: email,
+        name: name,
+        password: password,
     });
+
+    updateSessionStorage(name,email,password);
 }
 
-let usuario = JSON.parse(sessionStorage.getItem('usuario'));
-let form = document.getElementById('form-perfil');
 
-for (var atributos in usuario) {
-    if (usuario.hasOwnProperty(atributos)) {
-        var input = document.createElement('input');
-        input.type = 'text';
-        input.name = atributos;
-        input.value = usuario[atributos];
-        input.id = atributos;
-        input.className = 'form-control mb-2';
 
-        var label = document.createElement('label');
-        label.innerHTML = atributos.toUpperCase();
-
-        form.appendChild(label);
-        form.appendChild(input);
-    }
-}
-
-let editButton = document.createElement('button');
-editButton.id='editarPerfil'
-editButton.className = 'btn btn-primary my-3 col-6 offset-3';
-editButton.innerHTML = 'Editar Perfil';
-form.appendChild(editButton);
-
-editButton.addEventListener('click', updateUser() );
 
 

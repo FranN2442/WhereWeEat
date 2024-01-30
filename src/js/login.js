@@ -2,7 +2,6 @@ import '../scss/styles.scss'
 import * as bootstrap from 'bootstrap'
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('El DOM ha sido completamente cargado');
 
   if (window.location.pathname == "/dist/login.html") {
 

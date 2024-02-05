@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiQ4uYQ4x6l8tMMn7li2bgkJDGsJlB8n8&libraries=places&callback=initMap" async defer></script>
-        <script src="./main.bundle.js"></script>
-        <style>
-            #map {
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiQ4uYQ4x6l8tMMn7li2bgkJDGsJlB8n8&libraries=places&callback=initMap"
+        async defer></script>
+    <script src="./main.bundle.js"></script>
+    <style>
+        #map {
             height: 400px;
             width: 100%;
         }
@@ -32,7 +33,7 @@
 
     <header>
         <!-- Image and text -->
-        <nav class="navbar bg-color-azulOscur0 navbar-expand-lg ">
+        <nav class="navbar fixed-top bg-color-azulOscuro navbar-expand-lg">
             <div class="container-fluid">
                 <h2 class="navbar-brand text-light">WhereWeEat</h2>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -42,19 +43,22 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul id="link-list" class="navbar-nav">
                         <li class="nav-item m-2">
-                            <button class="btn btn-outline-light my-2 my-sm-0 " type="button" href="#">Pagina
+                            <button class="btn btn-outline-light my-2 my-sm-0 " type="button" id="home-btn">Página
                                 Principal</button>
                         </li>
                         <li class="nav-item m-2">
-                            <button class="btn btn-outline-light my-2 my-sm-0" type="button" href="#">Sobre
-                                Nosotros</button>
+                            <button class="btn btn-outline-light my-2 my-sm-0" type="button" id="contact-btn">Contacto</button>
                         </li>
                     </ul>
                 </div>
                 <form class="form-inline my-2 my-lg-0">
                     <button class="btn btn-outline-light my-2 my-sm-0" type="button" id="logOutBtn">Log Out</button>
                     <button class="btn btn-outline-light my-2 my-sm-0" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="profile-button">Tu Perfil</button>
+                        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="profile-button">Tu Perfil
+                    </button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Eliminar Cuenta
+                    </button>
                 </form>
             </div>
         </nav>
@@ -65,7 +69,7 @@
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <form id="form-perfil" >
+            <form id="form-perfil">
 
             </form>
         </div>
@@ -103,7 +107,9 @@
             <img src="/src/assets/img/cards/european-food.jpg" class="card-img-top" alt="erasmus">
             <div class="card-body">
                 <p class="card-text">Podras disfrutar del mejor pa amb tumaca</p>
-                <button class="btn btn-primary barcelona-btn">Ver restaurantes</button>
+                <button class="btn btn-primary barcelona-btn" data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip" data-bs-title="Restaurantes de Barcelona">Ver
+                    restaurantes</button>
             </div>
         </div>
         <!-- MADRID -->
@@ -113,8 +119,10 @@
             </div>
             <img src="/src/assets/img/cards/american-food.jpg" class="card-img-top" alt="ciber">
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on</p>
-                <button class="btn btn-primary madrid-btn">Ver restaurantes</button>
+                <p class="card-text">La variedad de comida en la gran capital</p>
+                <button class="btn btn-primary madrid-btn" data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip" data-bs-title="Restaurantes de Madrid">Ver
+                    restaurantes</button>
             </div>
         </div>
         <!-- GRANADA -->
@@ -124,8 +132,10 @@
             </div>
             <img src="/src/assets/img/cards/european-food.jpg" class="card-img-top" alt="erasmus">
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on </p>
-                <button class="btn btn-primary granada-btn">Ver restaurantes</button>
+                <p class="card-text">Buenas tapas y un buen tablado flamenco</p>
+                <button class="btn btn-primary granada-btn" data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip" data-bs-title="Restaurantes de Granada">Ver
+                    restaurantes</button>
             </div>
         </div>
         <!-- MALAGA -->
@@ -135,11 +145,66 @@
             </div>
             <img src="/src/assets/img/cards/asiatic-food.jpg" class="card-img-top" alt="erasmus">
             <div class="card-body">
-                <p class="card-text">Comida andaluza, buenas tapas y cerca de la costa</p>
-                <button class="btn btn-primary malaga-btn">Ver restaurantes</button>
+                <p class="card-text">Buena comida y cerca de la costa</p>
+                <button class="btn btn-primary malaga-btn" data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip" data-bs-title="Restaurantes de Malaga">Ver
+                    restaurantes</button>
+            </div>
+        </div>
+        <div class="card text-color-azulMarino bg-color-blancoCrema m-3">
+            <div class="card-header text-color-azulMarino bg-color-blancoCrema">
+                TU UBICACIÓN
+            </div>
+            <img src="/src/assets/img/cards/asiatic-food.jpg" class="card-img-top" alt="erasmus">
+            <div class="card-body">
+                <p class="card-text">Restaurantes cerca de tu zona</p>
+                <button class="btn btn-primary user-btn" data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip" data-bs-title="Restaurantes cerca de ti">Ver
+                    restaurantes</button>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="exampleModal" tabindex="-2" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar usuario</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Seguro que deseas eleminar la cuenta?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="delete-btn">Eliminar cuenta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="map" hidden></div>
+    <footer class="bg-color-azulOscuro text-white">
+        <div class="container py-5" id="contact-div">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Contacto:</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="mailto:fgonzalezviejo@cifpfbmoll.eu" class="text-white">fgonzalezviejo@cifpfbmoll.eu</a></li>
+                        <li><a href="mailto:spiedramite@cifpfbmoll.eu" class="text-white">spiedramite@cifpfbmoll.eu</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>Formulario de Sugerencias/Reportes:</h5>
+                    <form>
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea class="form-control" id="message" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-secondary mt-2">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 
 

@@ -87,7 +87,7 @@ function deleteUser() {
   const transaccion = db.result.transaction(["users"], "readwrite");
   transaccion.objectStore("users").delete(email);
 
-  transaccion.oncomplete = function (event) {
+  transaccion.oncomplete = function (event) { 
     alert("User deleted!");
   };
 

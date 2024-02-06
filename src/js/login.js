@@ -1,17 +1,29 @@
 import '../scss/styles.scss'
 import * as bootstrap from 'bootstrap'
 
+// Início de la base de datos en IndexedDB
+const db = indexedDB.open("users", 1);
+
+db.onupgradeneeded = function (e) {
+  const database = e.target.result;
+
+  const userObjStore = database.createObjectStore("users", {
+    keyPath: "email",
+  });
+  userObjStore.createIndex("email", "email", { unique: true });
+};
+
+
+// Añadir botones login o register dependiendo de la página que estamos
 document.addEventListener('DOMContentLoaded', () => {
 
   if (window.location.pathname == "/dist/login.html") {
 
-    console.log('Login page');
-
     const loginForm = document.getElementById('loginForm');
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', (event) => {
 
-      e.preventDefault();
-      getUser();
+      event.preventDefault();
+      login();
 
     });
 
@@ -20,12 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (window.location.pathname == "/dist/register.html") {
 
-      console.log('register page');
       const registrationForm = document.getElementById('registrationForm');
-      registrationForm.addEventListener('submit', (e) => {
+      registrationForm.addEventListener('submit', (event) => {
 
-        e.preventDefault();
-        createUser()
+        event.preventDefault();
+        register();
 
       });
     }
@@ -36,30 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-const db = indexedDB.open("users", 1);
-
-db.onupgradeneeded = function (e) {
-  const database = e.target.result;
-
-  const user = [{ name: "samu", email: "samup60@gmail.com", password: "1234" }];
-
-  const userObjStore = database.createObjectStore("users", {
-    keyPath: "email",
-  });
-  userObjStore.createIndex("email", "email", { unique: true });
-
-  userObjStore.transaction.oncomplete = function (e) {
-    let dataObjectStore = database
-      .transaction("users", "readwrite")
-      .objectStore("users");
-
-    for (let i in user) {
-      dataObjectStore.add(user[i]);
-    }
-  };
-};
-
-function createUser() {
+// Crear usuario en IndexedDB con los valores del form.
+function register() {
   const uname = document.getElementById("uname").value;
   const mail = document.getElementById("email").value;
   const pass = document.getElementById("psw").value;
@@ -71,38 +60,22 @@ function createUser() {
     password: pass,
   });
 
-  transaccion.oncomplete = function (event) {
-    window.location.href = "login.html"
-    alert("User registered!");
+  transaccion.oncomplete = function () {
+    accessMessages("Usuario creado correctamente!","registrationForm","login.html","success")
+
   };
 
-  transaccion.onerror = function (e) {
-    showError()
-  };
-
-}
-
-function deleteUser() {
-  const email = document.getElementById("delete").value;
-  const transaccion = db.result.transaction(["users"], "readwrite");
-  transaccion.objectStore("users").delete(email);
-
-  transaccion.oncomplete = function (event) { 
-    alert("User deleted!");
-  };
-
-  transaccion.error = function (event) {
-    alert("Error", event.target.error);
+  transaccion.onerror = function (event) {
+    console.error("Error al insertar el usuario: ", event.target.error);
   };
 
 }
 
-function getUser() {
+// Verificación de las credenciales pasadas por el usario en IndexedDB
+function login() {
 
   const email = document.getElementById("email").value;
   const password = document.getElementById("psw").value;
-
-  console.log(email + password);
 
   const transaccion = db.result.transaction(["users"], "readonly");
   const objectStore = transaccion.objectStore("users");
@@ -114,28 +87,43 @@ function getUser() {
     const user = e.target.result;
 
     if (user) {
+
       // Usuario encontrado, ahora verifica la contraseña
-  
       if (user.password === password) {
         sessionStorage.setItem('usuario', JSON.stringify(user));
-        alert('¡Credenciales válidas!')
-        window.location.href="index.html"
+        accessMessages("Inicio de sesión correcto!","loginForm","index.html","success")
       } else {
-        console.log("Contraseña incorrecta.");
+        accessMessages("Contraseña incorrecta.","loginForm","login.html","danger")
       }
     } else {
-      console.log("Usuario no encontrado.");
+      accessMessages("Correo incorrecto.","loginForm","login.html","danger")
     }
-    
+
   };
 
   emailRequest.onerror = function (event) {
-    console.error("Error retrieving user data:", event.target.error);
+    console.error("Error al buscar el usuario: ", event.target.error);
   };
 
 }
 
-function showError(element) {
-  console.log(JSON.str)
-  return;
+
+// Control de mensajes de verificación o de errores al usuario.
+function accessMessages(message, formId,redirectPage,type) {
+
+  let formDiv = document.getElementById(formId);
+  let h4 = document.createElement('h4');
+  h4.innerHTML = message;
+  h4.className = "text-" + type + " mt-2";
+  formDiv.appendChild(h4);
+
+  setTimeout(() => {
+
+    window.location.href = redirectPage
+
+
+  }, 2000)
+
 }
+
+

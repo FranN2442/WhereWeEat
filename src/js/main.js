@@ -1,11 +1,15 @@
 import '../scss/styles.scss'
 import * as bootstrap from 'bootstrap'
+// Objeto de la base de datos, para poder operar con ella.
 const db = indexedDB.open("users", 1);
+
+// Variables para iniciar el mapa.
 let map;
 let service;
 let infowindow;
-let body = document.querySelector('body');
 
+// Guardar botones en variables para añadirles funcionalidades.
+let body = document.querySelector('body');
 let bcnButton = document.querySelector('.barcelona-btn');
 let grxButton = document.querySelector('.granada-btn');
 let mdrButton = document.querySelector('.madrid-btn');
@@ -17,6 +21,7 @@ let deleteBut = document.getElementById('delete-btn');
 let homeButton = document.getElementById('home-btn');
 let contactButton = document.getElementById('contact-btn');
 
+// Inserción de funcionalidades a los botones.
 bcnButton.addEventListener('click', function () {
     setMapCoords({ lng: 2.1589900, lat: 41.3887900 });
 });
@@ -77,7 +82,8 @@ contactButton.addEventListener('click', () => {
 
 })
 
-function searchNearbyRestaurants(location) {
+// Buscar los restaurantes en el radio indicado y llamar a la función createMarker().
+function searchRestaurants(location) {
     const request = {
         location: location,
         radius: '5000',
@@ -96,6 +102,7 @@ function searchNearbyRestaurants(location) {
     });
 }
 
+// Añadir los marcadores de los restaurantes.
 function createMarker(place) {
     if (!place.geometry || !place.geometry.location) return;
 
@@ -111,10 +118,11 @@ function createMarker(place) {
 }
 
 
-
+// Variables necesarias para la ejecución del toolTip
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
+// Inicializar el formulario para editar la información del usuario.
 function setProfile() {
 
     let usuario = JSON.parse(sessionStorage.getItem('usuario'));
@@ -153,7 +161,7 @@ function setProfile() {
 
 }
 
-
+// Guradar usuario en el SessionStorage para futuro uso.
 function updateSessionStorage(name, email, password) {
 
     let usuario = JSON.parse(sessionStorage.getItem('usuario'));
@@ -165,18 +173,19 @@ function updateSessionStorage(name, email, password) {
 
 }
 
+// Funcion que ejecuta las demás funciones del mapa para enseñar al usuario.
 function setMapCoords(coords) {
 
     if (!document.getElementById('map').hidden) {
         setCenter(coords);
-        searchNearbyRestaurants(coords);
+        searchRestaurants(coords);
     } else {
         let divMap = document.getElementById('map');
         divMap.removeAttribute('hidden')
         initMap();
         setTimeout(() => {
             setCenter(coords);
-            searchNearbyRestaurants(coords);
+            searchRestaurants(coords);
             let posDiv = divCharged.getBoundingClientRect().top + window.scrollY;
             window.scrollTo({
                 top: posDiv,
@@ -186,20 +195,7 @@ function setMapCoords(coords) {
     }
 }
 
-
-// function setDivMap() {
-
-//     let div = document.createElement('div');
-//     div.id = 'map';
-
-//     body.append(div);
-
-//     initMap();
-//     return div
-
-
-// }
-
+// Inicializar el mapa
 async function initMap() {
 
     const { Map } = await google.maps.importLibrary("maps");
@@ -210,6 +206,7 @@ async function initMap() {
 
 }
 
+// Establecer la vista del mapa a las cordenadas deseadas
 function setCenter(pos) {
 
     const ciudadCoords = {
@@ -219,6 +216,7 @@ function setCenter(pos) {
     map.setCenter(ciudadCoords);
 
 }
+// Desloguear al usuario y borrar sessionStorage
 function logOut() {
 
     sessionStorage.removeItem("usuario");
@@ -226,6 +224,7 @@ function logOut() {
 
 }
 
+// Actualización de la información del  usaurio en indexedDB y en Session Storage.
 function updateUser() {
     console.log('hola');
     const email = document.getElementById("email").value;
@@ -247,6 +246,7 @@ function updateUser() {
 
 }
 
+// Eliminar  el usuario de indexedDB y ejecutar función de log out
 function deleteUser() {
 
 

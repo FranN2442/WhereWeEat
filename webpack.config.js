@@ -7,7 +7,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   mode: 'development',
   entry: {main : './src/js/main.js',
-          login : './src/js/login.js'},
+          login : './src/js/login.js',
+          geoCode : './src/js/geoCode.js'},
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')

@@ -5,16 +5,8 @@ const db = indexedDB.open("users", 1);
 
 // Variables para iniciar el mapa.
 let map;
-let service;
-let infowindow;
 
 // Guardar botones en variables para añadirles funcionalidades.
-let body = document.querySelector('body');
-let bcnButton = document.querySelector('.barcelona-btn');
-let grxButton = document.querySelector('.granada-btn');
-let mdrButton = document.querySelector('.madrid-btn');
-let mlgButton = document.querySelector('.malaga-btn');
-let userButton = document.querySelector('.user-btn');
 let logOutButton = document.getElementById('logOutBtn');
 let profileButton = document.getElementById('profile-button');
 let deleteBut = document.getElementById('delete-btn');
@@ -22,28 +14,6 @@ let homeButton = document.getElementById('home-btn');
 let contactButton = document.getElementById('contact-btn');
 
 // Inserción de funcionalidades a los botones.
-bcnButton.addEventListener('click', function () {
-    setMapCoords({ lng: 2.1589900, lat: 41.3887900 });
-});
-
-grxButton.addEventListener('click', function () {
-    setMapCoords({ lng: -3.6066700, lat: 37.1881700 });
-});
-
-mdrButton.addEventListener('click', function () {
-    setMapCoords({ lng: -3.7025600, lat: 40.4165000 });
-});
-
-mlgButton.addEventListener('click', function () {
-    setMapCoords({ lng: -4.4203400, lat: 36.7201600 });
-});
-userButton.addEventListener('click', function () {
-
-    navigator.geolocation.getCurrentPosition((position) => {
-
-        setMapCoords({ lng: position.coords.longitude, lat: position.coords.latitude });
-    })
-});
 logOutButton.addEventListener('click', function () {
     logOut();
 });
@@ -80,42 +50,7 @@ contactButton.addEventListener('click', () => {
                 behavior: 'smooth'
             });
 
-})
-
-// Buscar los restaurantes en el radio indicado y llamar a la función createMarker().
-function searchRestaurants(location) {
-    const request = {
-        location: location,
-        radius: '5000',
-        query: "resturant",
-        fields: ["name", "geometry"],
-    };
-
-    service = new google.maps.places.PlacesService(map);
-    service.textSearch(request, (results, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-            for (let i = 0; i < results.length; i++) {
-                createMarker(results[i])
-                console.log(results[i].name);
-            }
-        }
-    });
-}
-
-// Añadir los marcadores de los restaurantes.
-function createMarker(place) {
-    if (!place.geometry || !place.geometry.location) return;
-
-    const marker = new google.maps.Marker({
-        map,
-        position: place.geometry.location,
-    });
-
-    google.maps.event.addListener(marker, "click", () => {
-        infowindow.setContent(place.name || "");
-        infowindow.open(map);
-    });
-}
+});
 
 
 // Variables necesarias para la ejecución del toolTip

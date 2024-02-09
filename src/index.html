@@ -8,7 +8,8 @@
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiQ4uYQ4x6l8tMMn7li2bgkJDGsJlB8n8&libraries=places&callback=initMap"
         async defer></script>
-    <script src="./main.bundle.js"></script>
+    <script src="./raphael-min.js"></script>
+    <script src="./spain-map.min.js"></script>
     <style>
         #map {
             height: 400px;
@@ -47,7 +48,8 @@
                                 Principal</button>
                         </li>
                         <li class="nav-item m-2">
-                            <button class="btn btn-outline-light my-2 my-sm-0" type="button" id="contact-btn">Contacto</button>
+                            <button class="btn btn-outline-light my-2 my-sm-0" type="button"
+                                id="contact-btn">Contacto</button>
                         </li>
                     </ul>
                 </div>
@@ -98,70 +100,10 @@
         </button>
     </div>
     </div>
+    <div id="geoMap" class="m-4"></div>
+    <div id="map" hidden></div>
     <div class="card-group">
-        <!-- BARCELONA -->
-        <div class="card text-color-azulMarino bg-color-blancoCrema m-3">
-            <div class="card-header text-color-azulMarino bg-color-blancoCrema">
-                BARCELONA
-            </div>
-            <img src="/src/assets/img/cards/barcelona.jpg" class="card-img-top" alt="erasmus">
-            <div class="card-body">
-                <p class="card-text">Podras disfrutar del mejor pa amb tumaca</p>
-                <button class="btn btn-primary barcelona-btn" data-bs-toggle="tooltip" data-bs-placement="top"
-                    data-bs-custom-class="custom-tooltip" data-bs-title="Restaurantes de Barcelona">Ver
-                    restaurantes</button>
-            </div>
-        </div>
-        <!-- MADRID -->
-        <div class="card text-color-azulMarino bg-color-blancoCrema m-3">
-            <div class="card-header text-color-azulMarino bg-color-blancoCrema">
-                MADRID
-            </div>
-            <img src="/src/assets/img/cards/madrid.jpg" class="card-img-top" alt="ciber">
-            <div class="card-body">
-                <p class="card-text">La variedad de comida en la gran capital</p>
-                <button class="btn btn-primary madrid-btn" data-bs-toggle="tooltip" data-bs-placement="top"
-                    data-bs-custom-class="custom-tooltip" data-bs-title="Restaurantes de Madrid">Ver
-                    restaurantes</button>
-            </div>
-        </div>
-        <!-- GRANADA -->
-        <div class="card text-color-azulMarino bg-color-blancoCrema m-3">
-            <div class="card-header text-color-azulMarino bg-color-blancoCrema">
-                GRANADA
-            </div>
-            <img src="/src/assets/img/cards/Granada.jpg" class="card-img-top" alt="erasmus">
-            <div class="card-body">
-                <p class="card-text">Buenas tapas y un buen tablado flamenco</p>
-                <button class="btn btn-primary granada-btn" data-bs-toggle="tooltip" data-bs-placement="top"
-                    data-bs-custom-class="custom-tooltip" data-bs-title="Restaurantes de Granada">Ver
-                    restaurantes</button>
-            </div>
-        </div>
-        <!-- MALAGA -->
-        <div class="card text-color-azulMarino bg-color-blancoCrema m-3">
-            <div class="card-header text-color-azulMarino bg-color-blancoCrema">
-                MALAGA
-            </div>
-            <img src="/src/assets/img/cards/malaga.jpg" class="card-img-top" alt="erasmus">
-            <div class="card-body">
-                <p class="card-text">Buena comida y cerca de la costa</p>
-                <button class="btn btn-primary malaga-btn" data-bs-toggle="tooltip" data-bs-placement="top"
-                    data-bs-custom-class="custom-tooltip" data-bs-title="Restaurantes de Malaga">Ver
-                    restaurantes</button>
-            </div>
-        </div>
-        <div class="card text-color-azulMarino bg-color-blancoCrema m-3">
-            <div class="card-header text-color-azulMarino bg-color-blancoCrema">
-                TU UBICACIÓN
-            </div>
-            <img src="/src/assets/img/cards/asiatic-food.jpg" class="card-img-top" alt="erasmus">
-            <div class="card-body">
-                <p class="card-text">Restaurantes cerca de tu zona</p>
-                <button class="btn btn-primary user-btn" data-bs-toggle="tooltip" data-bs-placement="top"
-                    data-bs-custom-class="custom-tooltip" data-bs-title="Restaurantes cerca de ti">Ver
-                    restaurantes</button>
-            </div>
+        <div class="row" id="cards">
         </div>
     </div>
     <div class="modal fade" id="exampleModal" tabindex="-2" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -181,15 +123,16 @@
             </div>
         </div>
     </div>
-    <div id="map" hidden></div>
     <footer class="bg-color-azulOscuro text-white">
         <div class="container py-5" id="contact-div">
             <div class="row">
                 <div class="col-md-6">
                     <h5>Contacto:</h5>
                     <ul class="list-unstyled">
-                        <li><a href="mailto:fgonzalezviejo@cifpfbmoll.eu" class="text-white">fgonzalezviejo@cifpfbmoll.eu</a></li>
-                        <li><a href="mailto:spiedramite@cifpfbmoll.eu" class="text-white">spiedramite@cifpfbmoll.eu</a></li>
+                        <li><a href="mailto:fgonzalezviejo@cifpfbmoll.eu"
+                                class="text-white">fgonzalezviejo@cifpfbmoll.eu</a></li>
+                        <li><a href="mailto:spiedramite@cifpfbmoll.eu" class="text-white">spiedramite@cifpfbmoll.eu</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-md-6">
@@ -205,6 +148,8 @@
             </div>
         </div>
     </footer>
+    <script src="./main.bundle.js"></script>
+    <script src="./geoCode.bundle.js"></script>
 </body>
 
 

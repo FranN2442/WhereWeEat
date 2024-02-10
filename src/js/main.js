@@ -101,7 +101,7 @@ function updateSessionStorage(name, email, password) {
     usuario.email = email;
     usuario.password = password;
     sessionStorage.setItem('usuario', JSON.stringify(usuario))
-    window.location.reload();
+    // window.location.reload();
 
 }
 // Desloguear al usuario y borrar sessionStorage
@@ -126,12 +126,27 @@ function updateUser() {
         password: password,
     });
 
+    let request2 = transaccion.objectStore("users").get(email);
+    console.log(request2);
     request.onsuccess = function (event) {
 
         updateSessionStorage(name, email, password);
 
     }
 
+}
+
+function readUser(email){
+
+    const transaccion = db.result.transaction(["users"], "readwrite");
+
+    let request = transaccion.objectStore("users").get(email);
+
+    request.onsuccess =  function (e) {
+
+        return  e.target.result;
+
+    }
 }
 
 // Eliminar  el usuario de indexedDB y ejecutar función de log out

@@ -3,9 +3,6 @@ import * as bootstrap from 'bootstrap'
 // Objeto de la base de datos, para poder operar con ella.
 const db = indexedDB.open("users", 1);
 
-// Variables para iniciar el mapa.
-let map;
-
 // Guardar botones en variables para añadirles funcionalidades.
 let logOutButton = document.getElementById('logOutBtn');
 let profileButton = document.getElementById('profile-button');
@@ -105,50 +102,6 @@ function updateSessionStorage(name, email, password) {
     usuario.password = password;
     sessionStorage.setItem('usuario', JSON.stringify(usuario))
     window.location.reload();
-
-}
-
-// Funcion que ejecuta las demás funciones del mapa para enseñar al usuario.
-function setMapCoords(coords) {
-
-    if (!document.getElementById('map').hidden) {
-        setCenter(coords);
-        searchRestaurants(coords);
-    } else {
-        let divMap = document.getElementById('map');
-        divMap.removeAttribute('hidden')
-        initMap();
-        setTimeout(() => {
-            setCenter(coords);
-            searchRestaurants(coords);
-            let posDiv = divCharged.getBoundingClientRect().top + window.scrollY;
-            window.scrollTo({
-                top: posDiv,
-                behavior: 'smooth'
-            });
-        }, 1000);
-    }
-}
-
-// Inicializar el mapa
-async function initMap() {
-
-    const { Map } = await google.maps.importLibrary("maps");
-
-    map = new Map(document.getElementById("map"), {
-        zoom: 13,
-    });
-
-}
-
-// Establecer la vista del mapa a las cordenadas deseadas
-function setCenter(pos) {
-
-    const ciudadCoords = {
-        lat: pos.lat,
-        lng: pos.lng,
-    };
-    map.setCenter(ciudadCoords);
 
 }
 // Desloguear al usuario y borrar sessionStorage

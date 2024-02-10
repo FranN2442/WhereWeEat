@@ -148,7 +148,7 @@ function createCard(info) {
 
     const img = document.createElement("img");
     img.classList.add("card-img-top");
-    img.setAttribute("src", "/src/assets/img/cards/asiatic-food.jpg");
+    img.setAttribute("src", "./assets/img/cards/asiatic-food.jpg");
     img.setAttribute("alt", "erasmus");
 
 

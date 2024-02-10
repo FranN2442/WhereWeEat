@@ -988,7 +988,7 @@ eval("module.exports = \"data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/20
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"main": 0
+/******/ 			"crud": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -1016,7 +1016,7 @@ eval("module.exports = \"data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/20
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/js/main.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/js/crud.js");
 /******/ 	
 /******/ })()
 ;

@@ -2,6 +2,8 @@
 let geocoder;
 let map;
 
+
+
 function initMap() {
 
     geocoder = new google.maps.Geocoder();
@@ -13,7 +15,23 @@ function initMap() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("ContentLoaded");
+    let userBtn = document.getElementById("my-loc");
+
+    userBtn.addEventListener("click", () => {
+
+        navigator.geolocation.getCurrentPosition((position) => {
+
+            let cardRow = document.getElementById("cards");
+            cardRow.innerHTML = ""
+            let coords = {"lat" : position.coords.latitude, "lng": position.coords.longitude}
+            setCenter(coords);
+            searchRestaurants(coords)
+
+
+        })
+
+    })
+
 
     new SpainMap({
         id: 'geoMap', //(Requerido) Elemento HTML en el que se renderizará el mapa

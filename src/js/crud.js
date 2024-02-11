@@ -30,7 +30,7 @@ export function register() {
     };
 
     transaccion.onerror = function (event) {
-        accessMessages("El correo proporcionado ya está registrado!", "registrationForm", "html/register.html", "danger")
+        accessMessages("El correo proporcionado ya está registrado!", "registrationForm", "register.html", "danger")
     };
 
 }

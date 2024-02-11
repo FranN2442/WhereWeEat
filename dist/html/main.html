@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiQ4uYQ4x6l8tMMn7li2bgkJDGsJlB8n8&libraries=places&callback=initMap"></script>
+    <script src="../raphael-min.js"></script>
+    <script src="../spain-map.min.js"></script>
+    
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+
+        .card img {
+
+            height: 400px;
+
+        }
+    </style>
+</head>
+
+<body class="bg-color-azulMarino" >
+    <header>
+        <!-- Image and text -->
+        <nav class="navbar fixed-top bg-color-azulOscuro navbar-expand-lg">
+            <div class="container-fluid">
+                <h2 class="navbar-brand text-light">WhereWeEat</h2>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul id="link-list" class="navbar-nav">
+                        <li class="nav-item m-2">
+                            <button class="btn btn-outline-light my-2 my-sm-0 " type="button" id="home-btn">Página
+                                Principal</button>
+                        </li>
+                        <li class="nav-item m-2">
+                            <button class="btn btn-outline-light my-2 my-sm-0" type="button"
+                                id="contact-btn">Contacto</button>
+                        </li>
+                    </ul>
+                </div>
+                <form class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-warning" type="button" id="my-loc">Cerca de mi</button>
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="button" id="logOutBtn">Log Out</button>
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="profile-button">Tu Perfil
+                    </button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Eliminar Cuenta
+                    </button>
+                </form>
+            </div>
+        </nav>
+    </header>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasRightLabel">Editar Perfil</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form id="form-perfil">
+            </form>
+        </div>
+    </div>
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="../assets/img/carousel/madrid.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="../assets/img/carousel/granada.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="../assets/img/carousel/barcelona.jpg" class="d-block w-100" alt="...">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <div class="container">
+        <div class="row">
+          <div class="col-12 d-flex justify-content-center">
+            <div id="geoMap" class="mb-3 mt-3"></div>
+          </div>
+        </div>
+      </div>
+    <div id="map" hidden></div>
+    <div class="card-group">
+        <div class="row" id="cards">
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-2" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar usuario</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Seguro que deseas eleminar la cuenta?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="delete-btn">Eliminar cuenta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-color-azulOscuro text-white">
+        <div class="container py-5" id="contact-div">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Contacto:</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="mailto:fgonzalezviejo@cifpfbmoll.eu"
+                                class="text-white">fgonzalezviejo@cifpfbmoll.eu</a></li>
+                        <li><a href="mailto:spiedramite@cifpfbmoll.eu" class="text-white">spiedramite@cifpfbmoll.eu</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>Formulario de Sugerencias/Reportes:</h5>
+                    <form>
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea class="form-control" id="message" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-secondary mt-2">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script type="text/javascript" src="../main.bundle.js"></script>
+    <script type="text/javascript" src="../geoCode.bundle.js"></script>
+</body>
+
+</html>

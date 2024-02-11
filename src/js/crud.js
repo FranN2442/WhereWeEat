@@ -1,6 +1,6 @@
 import { updateSessionStorage, logOut } from "./main.js";
 // Início de la base de datos en IndexedDB
-let db = indexedDB.open("users", 20);
+let db = indexedDB.open("users", 24);
 
 db.onupgradeneeded = function (e) {
     const database = e.target.result;
@@ -25,12 +25,12 @@ export function register() {
     });
 
     transaccion.oncomplete = function () {
-        accessMessages("Usuario creado correctamente!", "registrationForm", "login.html", "success")
+        accessMessages("Usuario creado correctamente!", "registrationForm", "/", "success")
 
     };
 
     transaccion.onerror = function (event) {
-        accessMessages("El correo proporcionado ya está registrado!", "registrationForm", "register.html", "danger")
+        accessMessages("El correo proporcionado ya está registrado!", "registrationForm", "htlm/register.html", "danger")
     };
 
 }
@@ -55,12 +55,12 @@ export function login() {
             // Usuario encontrado, ahora verifica la contraseña
             if (user.password === password) {
                 sessionStorage.setItem('usuario', JSON.stringify(user));
-                accessMessages("Inicio de sesión correcto!", "loginForm", "index.html", "success")
+                accessMessages("Inicio de sesión correcto!", "loginForm", "html/main.html", "success")
             } else {
-                accessMessages("Contraseña incorrecta.", "loginForm", "login.html", "danger")
+                accessMessages("Contraseña incorrecta.", "loginForm", "index.html", "danger")
             }
         } else {
-            accessMessages("Correo incorrecto.", "loginForm", "login.html", "danger")
+            accessMessages("Correo incorrecto.", "loginForm", "index.html", "danger")
         }
 
     };

@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   console.log(window.location.pathname);
-  if (window.location.pathname == "/login.html") {
+  if (window.location.pathname == "/") {
 
     console.log("login");
     const loginForm = document.getElementById('loginForm');
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   } else {
 
-    if (window.location.pathname == "/register.html") {
+    if (window.location.pathname == "/html/register.html") {
 
       console.log("register");
       const registrationForm = document.getElementById('registrationForm');

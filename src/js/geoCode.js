@@ -20,14 +20,23 @@ document.addEventListener("DOMContentLoaded", () => {
     userBtn.addEventListener("click", () => {
 
         navigator.geolocation.getCurrentPosition((position) => {
+            let mapDiv = document.getElementById('map');
+            if (mapDiv.hidden) {
+                initMap()
+                mapDiv.removeAttribute("hidden")
+                let coords = { "lat": position.coords.latitude, "lng": position.coords.longitude }
+                setCenter(coords);
+                searchRestaurants(coords)
 
-            let cardRow = document.getElementById("cards");
-            cardRow.innerHTML = ""
-            let coords = {"lat" : position.coords.latitude, "lng": position.coords.longitude}
-            setCenter(coords);
-            searchRestaurants(coords)
+            } else {
 
+                let cardRow = document.getElementById("cards");
+                cardRow.innerHTML = ""
+                let coords = { "lat": position.coords.latitude, "lng": position.coords.longitude }
+                setCenter(coords);
+                searchRestaurants(coords)
 
+            }
         })
 
     })
@@ -148,8 +157,8 @@ function createCard(info) {
 
     const img = document.createElement("img");
     img.classList.add("card-img-top");
-    img.setAttribute("src", "./assets/img/cards/asiatic-food.jpg");
-    img.setAttribute("alt", "erasmus");
+    img.setAttribute("src", "../assets/img/cards/asiatic-food.jpg");
+    img.setAttribute("alt", "cards");
 
 
     // Crear el elemento div con la clase "card-body"
@@ -162,7 +171,7 @@ function createCard(info) {
     paragraph.textContent = "Dirección: " + info.formatted_address;
 
     cardBodyDiv.appendChild(paragraph);
-    cardDiv.appendChild(cardHeaderDiv);cardDiv.appendChild(img);
+    cardDiv.appendChild(cardHeaderDiv); cardDiv.appendChild(img);
     cardDiv.appendChild(cardBodyDiv);
     colDiv.appendChild(cardDiv);
 

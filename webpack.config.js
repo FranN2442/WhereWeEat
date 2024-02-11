@@ -26,9 +26,9 @@ module.exports = {
     
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './src/index.html',filename : "index.html" , inject: false }),
-    new HtmlWebpackPlugin({ template: './src/login.html', filename : "login.html" , inject : false }),
-    new HtmlWebpackPlugin({ template: './src/register.html', filename : "register.html" , inject : false }),
+    new HtmlWebpackPlugin({ template: './src/main.html',filename : "/html/main.html" , inject: false }),
+    new HtmlWebpackPlugin({ template: './src/index.html', filename : "index.html" , inject : false }),
+    new HtmlWebpackPlugin({ template: './src/register.html', filename : "/html/register.html" , inject : false }),
     new CopyWebpackPlugin({
       patterns: [
         { from: 'src/assets', to: 'assets' }

@@ -111,7 +111,7 @@ export function updateSessionStorage(name, email, password) {
 export function logOut() {
 
     sessionStorage.removeItem("usuario");
-    window.location.href = "login.html"
+    window.location.href = "/"
 
 }
 

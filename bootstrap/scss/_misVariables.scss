@@ -1,0 +1,25 @@
+$colorT1 : #0d1b2a;
+$colorT2 : #1b263b;
+$colorT3 : #415a77;
+$colorT4 : #778da9;
+$colorT5 : #e0e1dd;
+
+$colors : (
+
+    "azulOscuro" : $colorT1,
+    "azulMarino" : $colorT2,
+    "azulCielo" : $colorT3,
+    "azulAlgodon" : $colorT4,
+    "blancoCrema" : $colorT5
+
+);
+
+@each $name, $color in $colors {
+    .text-color-#{$name} {
+      color: $color;
+    }
+  
+    .bg-color-#{$name} {
+      background-color: $color;
+    }
+  }

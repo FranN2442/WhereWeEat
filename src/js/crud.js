@@ -1,6 +1,6 @@
 import { updateSessionStorage, logOut } from "./main.js";
 // Início de la base de datos en IndexedDB
-let db = indexedDB.open("users", 15);
+let db = indexedDB.open("users", 20);
 
 db.onupgradeneeded = function (e) {
     const database = e.target.result;
